@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { createSession } from '../../../../database/sessions';
 import { createUser, getUserByUsername } from '../../../../database/users';
 import { createSerializedRegisterSessionTokenCookie } from '../../../../utils/cookies';
+import { createCsrfSecret } from '../../../../utils/csrf';
 
 const userSchema = z.object({
   username: z.string(),
@@ -15,7 +16,7 @@ export type RegisterResponseBodyPost =
   | { errors: { message: string }[] }
   | { user: { username: string } };
 
-export async function POST(request: NextRequest): Promise<NextResponse<RegisterResponseBodyPost>> {
+export const POST = async (request: NextRequest) => {
   // 1. validate the data
   const body = await request.json();
 
@@ -69,9 +70,9 @@ export async function POST(request: NextRequest): Promise<NextResponse<RegisterR
   // 5. create a session (in the next chapter)
   // - create the token
   const token = crypto.randomBytes(80).toString('base64');
-
+  const csrfSecret = createCsrfSecret();
   // - create the session
-  const session = await createSession(token, newUser.id);
+  const session = await createSession(token, newUser.id, csrfSecret);
 
   if (!session) {
     return NextResponse.json(
@@ -93,4 +94,4 @@ export async function POST(request: NextRequest): Promise<NextResponse<RegisterR
       headers: { 'Set-Cookie': serializedCookie },
     },
   );
-}
+};

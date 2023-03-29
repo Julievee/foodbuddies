@@ -5,13 +5,14 @@ import { z } from 'zod';
 import { createSession } from '../../../../database/sessions';
 import { getUserByUsernameWithPasswordHash } from '../../../../database/users';
 import { createSerializedRegisterSessionTokenCookie } from '../../../../utils/cookies';
+import { createCsrfSecret } from '../../../../utils/csrf';
 
 const userSchema = z.object({
   username: z.string(),
   password: z.string(),
 });
 
-export type LoginResponseBodyPost =
+export type RegisterResponseBody =
   | { errors: { message: string }[] }
   | { user: { username: string } };
 
@@ -70,10 +71,11 @@ export async function POST(request: NextRequest) {
 
   // 4. create a session (in the next chapter)
   // - create the token
-  const token = crypto.randomBytes(80).toString('base64');
 
+  const token = crypto.randomBytes(80).toString('base64');
+  const csrfSecret = createCsrfSecret();
   // - create the session
-  const session = await createSession(token, userWithPasswordHash.id);
+  const session = await createSession(token, userWithPasswordHash.id, csrfSecret);
 
   if (!session) {
     return NextResponse.json(

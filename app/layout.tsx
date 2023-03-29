@@ -1,7 +1,13 @@
+// eslint-disable-next-line no-restricted-syntax
+// 'use client';
+
 import './global.scss';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
 import { getUserBySessionToken } from '../database/users';
+// import List from './components/List/List';
+// import PlaceDetails from './components/PlaceDetails/PlaceDetails';
+// import Header from './components/Header/Header';
 import styles from './layout.module.scss';
 
 export const metadata = {
@@ -38,12 +44,12 @@ export default async function RootLayout(props: Props) {
             <div>
               <Link href="/">Home</Link>
               <div className={styles.auth}>
-                <Link href="/logout" prefetch={false}>
-                  logout
-                </Link>
                 <Link href="/register">register</Link>
                 <Link href="/login">login</Link>
                 {user && user.username}
+                <Link href="/logout" prefetch={false}>
+                  logout
+                </Link>
               </div>
             </div>
           </nav>
