@@ -7,8 +7,6 @@
 - React - Next.js
 - PostgreSQL
 - Playwright
-- Jest
-- Cloudinary
 
 Languages:
 
