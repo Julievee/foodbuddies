@@ -42,7 +42,7 @@ export default async function RootLayout(props: Props) {
         <header className={styles.header}>
           <nav>
             <div>
-              <Link href="/">Home</Link>
+              <Link href="/">foodbuddies</Link>
               <div className={styles.auth}>
                 <Link href="/register">register</Link>
                 <Link href="/login">login</Link>

@@ -9,11 +9,10 @@ export default async function UserProfile({ params }: Props) {
   if (!user) {
     notFound();
   }
-
   return (
     <>
       <h1>{user.username}</h1>
-      <p>id: {user.id}</p>
+      <p>Favorites</p>
     </>
   );
 }
