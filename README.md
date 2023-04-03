@@ -2,6 +2,9 @@
 
 ## Description
 
+Foodbuddies is an app where you can search for nearby restaurants.
+Using the registration and login you may save your favorite restaurants to a list.
+
 ## Technologies used
 
 - React - Next.js
